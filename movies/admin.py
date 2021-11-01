@@ -44,7 +44,7 @@ class MovieShotsInline(admin.TabularInline):
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
     """Фильмы"""
-    list_display = ("title", "category", "url", "draft")
+    list_display = ("id", "title", "category", "url", "draft")
     list_filter = ("category", "year")
     search_fields = ("title", "category__name")
     inlines = [MovieShotsInline, ReviewInline]
@@ -135,7 +135,7 @@ class ActorAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     """Рейтинг"""
-    list_display = ("movie", "ip")
+    list_display = ("movie", "star", "ip")
 
 
 @admin.register(MovieShots)
