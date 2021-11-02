@@ -33,9 +33,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'ckeditor',
     'ckeditor_uploader',
-    'movies',
+
     'djoser',
+    'drf_yasg',
     'django_filters',
+    'movies',
 ]
 
 MIDDLEWARE = [
