@@ -1,13 +1,27 @@
 from rest_framework import serializers
 
-from .models import Movie, Review, Rating
+from .models import Movie, Review, Rating, Actor
+
+
+class ActorListSerializer(serializers.ModelSerializer):
+    """Вывод списка актеров и режисёров"""
+    class Meta:
+        model = Actor
+        fields = ('id', 'name', 'image')
+
+
+class ActorDetailSerializer(serializers.ModelSerializer):
+    """Вывод актера и режисёра"""
+    class Meta:
+        model = Actor
+        fields = "__all__"
 
 
 class FilterReviewListSerializer(serializers.ListSerializer):
     """Фильтр комментариев, только parents"""
     def to_representation(self, data):
         data = data.filter(parent=None)
-        print("INFO ",data)
+        print("INFO ", data)
         return super().to_representation(data)
 
 
@@ -38,17 +52,19 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class MovieListSerializer(serializers.ModelSerializer):
     """Список фильмов"""
+    rating_user = serializers.BooleanField()
+    middle_star = serializers.IntegerField()
 
     class Meta:
         model = Movie
-        fields = ('title', 'tagline', 'category', 'id')
+        fields = ('id', 'title', 'tagline', 'category', 'rating_user', 'middle_star')
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
     """Полный фильм"""
     category = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    directors = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
-    actors = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
+    directors = ActorListSerializer(read_only=True, many=True)
+    actors = ActorListSerializer(read_only=True, many=True)
     genres = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
     reviews = ReviewSerializer(many=True)
 
@@ -64,7 +80,7 @@ class CreateRatingSerializer(serializers.ModelSerializer):
         fields = ('star', 'movie')
 
     def create(self, validated_data):
-        rating = Rating.objects.update_or_create(
+        rating, _ = Rating.objects.update_or_create(
             ip=validated_data.get('ip', None),
             movie=validated_data.get('movie', None),
             defaults={'star': validated_data.get('star')}
@@ -74,3 +90,5 @@ class CreateRatingSerializer(serializers.ModelSerializer):
         print('[INFO SERIALIZER] validated_data: ', validated_data)
         print('_________________')
         return rating
+
+
