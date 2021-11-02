@@ -24,3 +24,5 @@ class MovieFilter(filters.FilterSet):
     class Meta:
         model = Movie
         fields = ['genres', 'year']
+
+
