@@ -35,6 +35,10 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
 
     'djoser',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
+
     'drf_yasg',
     'django_filters',
     'movies',
