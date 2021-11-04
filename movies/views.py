@@ -1,6 +1,5 @@
 from django.db import models
 from rest_framework import generics, permissions, viewsets
-from rest_framework import generics, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Movie, Actor
 from .serializers import (MovieListSerializer, MovieDetailSerializer,
@@ -8,8 +7,7 @@ from .serializers import (MovieListSerializer, MovieDetailSerializer,
                           CreateRatingSerializer,
                           ActorListSerializer,
                           ActorDetailSerializer)
-from .utils import get_client_ip, MovieFilter
-from .api import ActorViewSet
+from .utils import get_client_ip, MovieFilter, PaginationMovies
 
 
 class MovieViewSet(viewsets.ReadOnlyModelViewSet):
@@ -17,6 +15,7 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
 
     filter_backends = (DjangoFilterBackend,)
     filterset_class = MovieFilter
+    pagination_class = PaginationMovies
 
     def get_queryset(self):
         movies = Movie.objects.filter(draft=False).annotate(
