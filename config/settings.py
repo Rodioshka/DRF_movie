@@ -81,18 +81,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'DRFMovie',
+#         'USER': 'postgres',
+#         'PASSWORD': 'rosik34552',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+# Settings For Docker
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DRFMovie',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'rosik34552',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'client_encoding': 'UTF8',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
